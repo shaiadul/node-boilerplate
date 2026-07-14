@@ -1,6 +1,9 @@
+<img width="1376" height="768" alt="621232317-096010b5-99f3-4180-8bb3-0195cd883e4f" src="https://github.com/user-attachments/assets/5775a383-240e-47ce-9d68-8eff75d92708" />
+
 # Enterprise Node.js Clean Architecture Boilerplate
 
 A production-ready, highly scalable Express.js and TypeScript backend boilerplate using SOLID principles, Clean Architecture, Prisma ORM, and Neon PostgreSQL.
+
 
 ## Table of Contents
 
