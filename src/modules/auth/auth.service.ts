@@ -8,6 +8,9 @@ import { hashPassword, comparePassword } from '../../utils/hash';
 import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from '../../utils/token';
 import { sanitizeUser } from '../users/user.utils';
 import { logger } from '../../config/logger';
+import { env } from '../../config/env';
+import { emailService } from '../../utils/email/email.service';
+import { getVerificationTemplate, getPasswordResetTemplate } from '../../utils/email/email.templates';
 
 export class AuthService {
   private userRepository: UserRepository;
@@ -36,6 +39,12 @@ export class AuthService {
     });
 
     logger.info(`[AuthService] Verification token for ${newUser.email}: ${verificationToken}`);
+
+    const verificationUrl = `${env.CLIENT_URL}/verify-email?token=${verificationToken}`;
+    const template = getVerificationTemplate(newUser.name || '', verificationUrl);
+    emailService.send(newUser.email, template).catch((err) => {
+      logger.error(`[AuthService] Failed to send verification email to ${newUser.email}:`, err);
+    });
 
     return sanitizeUser(newUser);
   }
@@ -141,6 +150,12 @@ export class AuthService {
     });
 
     logger.info(`[AuthService] Password reset link for ${email}: ${resetToken}`);
+
+    const resetUrl = `${env.CLIENT_URL}/reset-password?token=${resetToken}`;
+    const template = getPasswordResetTemplate(user.name || '', resetUrl);
+    emailService.send(email, template).catch((err) => {
+      logger.error(`[AuthService] Failed to send password reset email to ${email}:`, err);
+    });
   }
 
   async resetPassword(token: string, newPassword: string): Promise<void> {

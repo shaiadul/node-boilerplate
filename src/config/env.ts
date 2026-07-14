@@ -15,6 +15,13 @@ const envSchema = z.object({
   CLOUDINARY_NAME: z.string().default(''),
   CLOUDINARY_KEY: z.string().default(''),
   CLOUDINARY_SECRET: z.string().default(''),
+  EMAIL_PROVIDER: z.enum(['nodemailer', 'resend', 'console']).default('console'),
+  SMTP_HOST: z.string().default(''),
+  SMTP_PORT: z.string().transform((val) => parseInt(val, 10)).default('587'),
+  SMTP_USER: z.string().default(''),
+  SMTP_PASS: z.string().default(''),
+  SMTP_FROM: z.string().default('RHC App <no-reply@example.com>'),
+  RESEND_API_KEY: z.string().default(''),
 });
 
 const parsed = envSchema.safeParse(process.env);
