@@ -151,7 +151,7 @@ To test protected routes, click "Authorize" and input a JWT token.
 
 ## Docker Support
 
-### Running local environments
+### Running local environment
 
 To build and spin up the complete package including a local PostgreSQL instance:
 
